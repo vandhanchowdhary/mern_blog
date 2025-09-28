@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 
+// GET /api/blogs
 const getBlogs = async (req, res, next) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
@@ -16,8 +17,8 @@ const getBlogs = async (req, res, next) => {
     }
 
     let sort = { publishedAt: -1 };
-
     let query;
+
     if (q) {
       // text search
       filter.$text = { $search: q };
@@ -33,7 +34,7 @@ const getBlogs = async (req, res, next) => {
     const posts = await query
       .skip(skip)
       .limit(limit)
-      .select("title slug excerpt coverImage tags publishedAt")
+      .select("title slug excerpt images tags publishedAt")
       .lean();
 
     res.json({ posts, page, pages: Math.ceil(total / limit), total });
@@ -42,6 +43,7 @@ const getBlogs = async (req, res, next) => {
   }
 };
 
+// GET /api/blogs/:slug
 const getBlogBySlug = async (req, res, next) => {
   try {
     const { slug } = req.params;

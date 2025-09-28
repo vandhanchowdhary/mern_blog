@@ -9,11 +9,10 @@ const {
 } = require("../controllers/adminController");
 const { adminAuth } = require("../middleware/auth");
 
-// auth
+// Auth route
 router.post("/login", login);
 
-// protected admin CRUD
-// create post (multipart/form)
+// Protected admin CRUD
 router.post("/blogs", adminAuth, memoryUpload.array("images", 10), createPost);
 router.put(
   "/blogs/:id",

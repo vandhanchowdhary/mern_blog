@@ -81,33 +81,80 @@ const createPost = async (req, res, next) => {
   }
 };
 
+// Update post (supports adding new images/removing old images)
 const updatePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updates = { ...req.body };
-    if (updates.tags)
-      updates.tags = updates.tags.split(",").map((t) => t.trim());
-    // simplistic: allow adding files to images
-    if (req.files && req.files.length) {
-      const images = [];
-      for (const file of req.files) {
-        const result = await uploadStream(file.buffer);
-        images.push({ url: result.secure_url, public_id: result.public_id });
+
+    // Parse FormData fields into a JS object
+    const updates = {};
+    if (req.body.entries) {
+      for (let [key, value] of req.body.entries()) {
+        updates[key] = value;
       }
-      updates.$push = { images: { $each: images } };
-      // apply differently
-      const post = await Post.findByIdAndUpdate(id, updates, { new: true });
-      return res.json(post);
+    } else {
+      Object.assign(updates, req.body);
     }
 
-    const post = await Post.findByIdAndUpdate(id, updates, { new: true });
+    // Extract and parse imagesToRemove if present
+    let imagesToRemove = [];
+    if (updates.imagesToRemove) {
+      try {
+        imagesToRemove = JSON.parse(updates.imagesToRemove);
+      } catch (err) {
+        imagesToRemove = [];
+      }
+      delete updates.imagesToRemove;
+    }
+
+    // Process tags if present
+    if (updates.tags) {
+      updates.tags = updates.tags.split(",").map((t) => t.trim());
+    }
+
+    // Prepare final update object
+    const updateOps = {};
+
+    // Only update fields that are actually provided and not empty
+    if (updates.title !== undefined) updateOps.title = updates.title;
+    if (updates.excerpt !== undefined) updateOps.excerpt = updates.excerpt;
+    
+    // Only update content if it’s non-empty
+    if (updates.content !== undefined && updates.content !== "") {
+      updateOps.content = updates.content;
+    }
+
+    if (updates.tags !== undefined) updateOps.tags = updates.tags;
+
+    // Handle new images if uploaded
+    if (req.files && req.files.length) {
+      const newImages = [];
+      for (const file of req.files) {
+        const result = await uploadStream(file.buffer);
+        newImages.push({ url: result.secure_url, public_id: result.public_id });
+      }
+      updateOps.$push = { images: { $each: newImages } };
+    }
+
+    // Handle removed images
+    if (imagesToRemove.length) {
+      updateOps.$pull = { images: { public_id: { $in: imagesToRemove } } };
+      for (const pid of imagesToRemove) {
+        await require("cloudinary").v2.uploader.destroy(pid);
+      }
+    }
+
+    // Update the post safely
+    const post = await Post.findByIdAndUpdate(id, updateOps, { new: true });
     if (!post) return res.status(404).json({ message: "Post not found" });
+
     res.json(post);
   } catch (err) {
     next(err);
   }
 };
 
+// Delete post by ID
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
