@@ -8,9 +8,9 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-hidden">
       <Navbar />
-      <main className="flex-grow container mx-auto px-4 py-6">
+      <main className="flex-grow container mx-auto pt-2">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />

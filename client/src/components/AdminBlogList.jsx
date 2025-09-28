@@ -57,18 +57,19 @@ function AdminBlogList({ refresh, onEdit }) {
           {blogs.map((blog) => (
             <div
               key={blog._id}
-              className="border p-2 min-h-25 rounded flex justify-between items-center"
+              className="border p-2 min-h-25 rounded-lg flex justify-between items-center bg-gray-100"
             >
-              <div className="px-3 hover:scale-102 transition-all duration-200">
-                <Link to={`/blog/${blog.slug}`} rel="noopener noreferrer">
+              <Link to={`/blog/${blog.slug}`} rel="noopener noreferrer" className="flex-1 p-2 bg-gray-200 mr-2 rounded-lg hover:shadow-md transition-all duration-200">
+                <div className="px-3 hover:scale-102 transition-all duration-200">
                   <h3 className="text-lg font-bold">{blog.title}</h3>
                   <p className="text-gray-600 text-sm">{blog.excerpt}</p>
                   <p className="text-gray-400 text-xs">
                     Published: {new Date(blog.publishedAt).toLocaleString()}
                   </p>
-                </Link>
-              </div>
-              <div className="flex gap-2">
+                </div>
+              </Link>
+
+              <div className="flex gap-2 shrink-0">
                 <button
                   onClick={() => handleEditClick(blog)}
                   className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"

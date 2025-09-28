@@ -98,27 +98,39 @@ function AdminBlogForm({ existingBlog, onSuccess, onCancel }) {
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
+        className="w-full border px-3 py-2 rounded bg-gray-100"
         required
       />
       <textarea
         placeholder="Excerpt"
         value={excerpt}
         onChange={(e) => setExcerpt(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
+        className="w-full border px-3 py-2 rounded bg-gray-100"
       />
       <textarea
-        placeholder="Content (Markdown)"
+        placeholder={`Write your content here in Markdown...
+          some useful syntax:
+          1. # Heading 1
+          2. ## Heading 2
+          3. **bold**
+          4. *italic*
+          5. - List item
+          6. [Link](https://example.com)
+          7. \`inline code\`
+          8. \`\`\`
+             code block
+             \`\`\`
+          `}
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="w-full border px-3 py-2 rounded h-40"
+        className="w-full border px-3 py-2 rounded h-40 bg-gray-100"
       />
       <input
         type="text"
         placeholder="Tags (comma-separated)"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
-        className="w-full border px-3 py-2 rounded"
+        className="w-full border px-3 py-2 rounded bg-gray-100"
       />
 
       <div>

@@ -55,11 +55,14 @@ See `package.json` in backend and frontend directories for full lists.
 ## File tree for frontend
 
 ```plaintext
-frontend/
+
+client/
+│── public
+│   └── icon.png 
 │── index.html
 │── vite.config.js
 │── package.json
-│── .env                      *# frontend env (API URL)*
+│── .env                      *# frontend env (API URL)* Add your own .env
 │
 └── src/
     │── main.jsx              *# React entry*
@@ -73,34 +76,25 @@ frontend/
     │   ├── SearchBar.jsx
     │   ├──AdminBlogForm.jsx
     │   ├──AdminBlogList.jsx
-    │   ├──ImageUpload.jsx
-    │   ├── Loader.jsx
-    │   └── Pagination.jsx
+    │   └──ImageUpload.jsx   
     │
     ├── pages/                # Page-level components
     │   ├── Home.jsx          # List all blogs w/ search + filter
     │   ├── Admin.jsx
-    │   ├── BlogDetails.jsx   # Individual blog view
-    │   ├── Admin.jsx         # Blog management page
-    │   └── NotFound.jsx
+    │   └── BlogDetails.jsx   # Individual blog view
     │
-    ├── services/             # API calls (axios/fetch wrappers)
-    │   └── blogService.js
-    │
-    ├── context/              # (Optional) React Context for global state
-    │   └── BlogContext.jsx
-    │
-    ├── assets/               # Static images/icons
-    │   └── logo.png
-    │
-    └── utils/                # Helper functions
-        └── formatDate.js
+    └── utils/                
+        ├── formatDate.js     # Helper functions
+        ├── dummyBlogs.js   
+        └── blogService.js    # API calls (axios/fetch wrappers)
+    
 ```
 
 ## File tree for backend
 
 ```plaintext
-backend/
+
+server/
 ├─ package.json
 ├─ server.js
 ├─ config/

@@ -42,86 +42,78 @@ function BlogDetails() {
     );
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Back Button */}
-      <div className="my-2 py-2">
-        <Link
-          to="/"
-          className="bg-gray-200 py-1 px-2 rounded-lg text-blue-600 hover:underline font-medium"
+    <div className="max-w-8xl mx-auto px-2 py-4 flex gap-4 h-[80vh]">
+      {/* Left Column: Fixed width Image Carousel */}
+      <div className="w-[550px] relative flex-shrink-0 overflow-hidden">
+        {/* Left Arrow */}
+        <button
+          onClick={() => scrollImages("left")}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow"
         >
-          ← Back to Home
-        </Link>
-      </div>
+          ◀
+        </button>
 
-      {/* Title */}
-      <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
-
-      {/* Date + Tags */}
-      <div className="flex items-center gap-4 text-sm text-gray-500 mb-6 flex-wrap">
-        <span>{formatDate(blog.publishedAt)}</span>
-        <div className="flex gap-2 flex-wrap">
-          {blog.tags.map((tag, idx) => (
-            <span
+        {/* Image Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto h-full scroll-pl-4 bg-gray-100 rounded-xl snap-x snap-mandatory scrollbar-hide"
+        >
+          {blog.images.map((img, idx) => (
+            <img
               key={idx}
-              className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
-            >
-              {tag}
-            </span>
+              src={img.url}
+              alt={`Blog image ${idx + 1}`}
+              className="w-64 h-full md:w-72 lg:w-80 object-cover rounded flex-shrink-0 snap-center"
+              draggable="false"
+            />
           ))}
         </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={() => scrollImages("right")}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow"
+        >
+          ▶
+        </button>
       </div>
 
-      {/* Images with scroll buttons */}
-      {blog.images?.length > 0 && (
-        <div className="relative mb-6">
-          {/* Left Arrow */}
-          <button
-            onClick={() => scrollImages("left")}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow"
+      {/* Right Column: Scrollable Blog Details */}
+      <div className="flex-1 overflow-y-auto h-full bg-gray-100 rounded-xl">
+        {/* Back Button */}
+        <div className="py-2 sticky top-0 bg-white z-10 rounded-xl">
+          <Link
+            to="/"
+            className="bg-gray-200 py-2 px-2 rounded-xl text-blue-600 hover:underline font-medium"
           >
-            ◀
-          </button>
+            ← Back to Home
+          </Link>
+        </div>
 
-          {/* Image Container */}
-          <div
-            ref={scrollRef}
-            className="flex gap-4 overflow-x-auto py-2 scroll-pl-4 snap-x snap-mandatory scrollbar-hide"
-          >
-            {blog.images.map((img, idx) => (
-              <img
+        {/* Title */}
+        <h1 className="text-3xl  px-2 font-bold mb-2">{blog.title}</h1>
+
+        {/* Date + Tags */}
+        <div className="flex  px-2 items-center gap-4 text-sm text-gray-500 mb-6 flex-wrap">
+          <span>{formatDate(blog.publishedAt)}</span>
+          <div className="flex gap-2 flex-wrap">
+            {blog.tags.map((tag, idx) => (
+              <span
                 key={idx}
-                src={img.url}
-                alt={`Blog image ${idx + 1}`}
-                className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover rounded flex-shrink-0 snap-center"
-              />
+                className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
+              >
+                {tag}
+              </span>
             ))}
           </div>
-
-          {/* Right Arrow */}
-          <button
-            onClick={() => scrollImages("right")}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow"
-          >
-            ▶
-          </button>
         </div>
-      )}
 
-      {/* Markdown Content */}
-      <div className="prose max-w-none">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {blog.content}
-        </ReactMarkdown>
-      </div>
-
-      {/* Back Button */}
-      <div className="my-2 py-2">
-        <Link
-          to="/"
-          className="bg-gray-200 py-1 px-2 rounded-lg text-blue-600 hover:underline font-medium"
-        >
-          ← Back to Home
-        </Link>
+        {/* Markdown Content */}
+        <div className="prose max-w-none px-2">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {blog.content}
+          </ReactMarkdown>
+        </div>
       </div>
     </div>
   );

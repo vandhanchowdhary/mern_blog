@@ -4,13 +4,14 @@ import formatDate from "../utils/formatDate";
 
 const BlogCard = ({ blog }) => {
   return (
-    <div className="border rounded-lg shadow hover:shadow-lg transition p-4">
+    <div className="border border-gray-400 rounded-lg shadow hover:shadow-xl hover:scale-105 transition p-4">
       {/* Cover Image */}
       {blog.images && blog.images.length > 0 && (
         <img
           src={blog.images[0].url}
           alt={blog.title}
           className="w-full h-48 object-cover rounded-md mb-3"
+          draggable="false"
         />
       )}
 

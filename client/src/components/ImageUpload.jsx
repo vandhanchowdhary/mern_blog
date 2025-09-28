@@ -26,7 +26,7 @@ function ImageUpload({ images, setImages, setImagesToRemove }) {
         type="file"
         multiple
         onChange={handleFileChange}
-        className="p-1 w-full text-slate-500 text-sm rounded leading-6 file:bg-blue-200 file:text-gray-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded hover:file:bg-green-200 border"
+        className="p-1 w-full text-slate-500 text-sm rounded bg-gray-100 leading-6 file:bg-blue-200 file:text-gray-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded hover:file:bg-green-200 border"
       />
       <div className="flex gap-2 flex-wrap">
         {images.map((img, idx) => (

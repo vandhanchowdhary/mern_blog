@@ -32,15 +32,17 @@ function Admin() {
   if (!isLoggedIn) {
     // Show login form
     return (
-      <div className="max-w-sm mx-auto mt-20">
-        <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
+      <div className="max-w-sm mx-auto mt-20 p-6 border border-gray-200 rounded-2xl shadow-2xl bg-white/60 backdrop-blur-md hover:scale-105 hover:shadow-2xl transition transform">
+        <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
+          Admin Login
+        </h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
             placeholder="Admin email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border px-3 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-400 outline-none transition"
             required
           />
           <input
@@ -48,12 +50,12 @@ function Admin() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border px-3 py-2 rounded-lg bg-gray-100 focus:ring-2 focus:ring-blue-400 outline-none transition"
             required
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg shadow-lg hover:scale-105 hover:shadow-xl transition transform"
           >
             Login
           </button>
@@ -64,8 +66,8 @@ function Admin() {
 
   // Show dashboard (form + list) after login
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
 
       {/* Blog Form */}
       <AdminBlogForm
@@ -74,7 +76,7 @@ function Admin() {
         onCancel={() => setBlogToEdit(null)}
       />
 
-      <hr className="my-8" />
+      <hr className="my-6" />
 
       {/* Blog List */}
       <AdminBlogList
